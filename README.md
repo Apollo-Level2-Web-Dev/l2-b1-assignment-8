@@ -60,11 +60,13 @@ You have been assigned the task of building the backend for a Book Listing Appli
 
 - id
 - userId
-- orderedBooks → Array of book ids
-- status → ‘pending’/ ‘shipped’/’delivered’ → default shoulb be “pending”
+- orderedBooks → Array of Object and object contains book Id and quantity
+- status → ‘pending’/ ‘shipped’/’delivered’ → default should be “pending”
 - createdAt
 
 # Main Part:
+
+## API End points and Sample Data:
 
 ## Implement Create, Read, Update, and Delete Operations for Users Listing
 
@@ -73,8 +75,6 @@ You have been assigned the task of building the backend for a Book Listing Appli
 Route: /api/v1/auth/signup (POST)
 
 Request body:
-
-### Sample Data:
 
 ```json
 {
@@ -266,17 +266,40 @@ Route: /api/v1/users/:id (GET)
 
 Request Param: :id
 
-Response: The specified user object.
+Response: The specified category object and books array of object.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
   "message": "Category fetched successfully",
-  "data": {}
+  "data": {
+    "id": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d",
+    "title": "Fiction",
+    "books": [
+      {
+        "id": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
+        "title": "The Catcher in the Rye",
+        "author": "J.D. Salinger",
+        "genre": "Fiction",
+        "price": 350.75,
+        "publicationDate": "1951-07-16"
+      },
+      {
+        "id": "c9b2d566-1d8a-4fe1-8d15-07ed4f7c5dc9",
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "genre": "Fiction",
+        "price": 299.99,
+        "publicationDate": "1960-07-11"
+      }
+      // More books...
+    ]
+  }
 }
+
 ```
 
 ### Update a Category → Only Allowed For Admin
@@ -294,15 +317,19 @@ Request Body:
 
 Response: The updated category object.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
   "message": "Category updated successfully",
-  "data": {}
+  "data": {
+    "id": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d",
+    "title": "Fiction"
+  }
 }
+
 ```
 
 ### Delete a Category → Only Allowed For Admin
@@ -313,15 +340,19 @@ Request Param: :id
 
 Response: The deleted category object.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
   "message": "Category deleted successfully",
-  "data": {}
+  "data": {
+    "id": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d",
+    "title": "Fiction"
+  }
 }
+
 ```
 
 ## Implement Create, Read, Update, and Delete Operations for Book listings.
@@ -343,7 +374,7 @@ Request body:
 }
 ```
 
-Response: The newly created book object.
+Response: The newly created book object with category details.
 
 Response Sample Pattern:
 
@@ -353,17 +384,20 @@ Response Sample Pattern:
   "statusCode": 200,
   "message": "Book created successfully",
   "data": {
-    {
-      "id": "abm45888vbvbb5667",
-      "title": "The Catcher in the Rye",
-      "author": "J.D. Salinger",
-      "genre": "Fiction",
-      "price": 350.75,
-      "publicationDate": "1951-07-16",
-      "categoryId": "f1234573-sfkjsf-45332"
+    "id": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Fiction",
+    "price": 350.75,
+    "publicationDate": "1951-07-16",
+    "categoryId": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d",
+    "category": {
+      "id": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d",
+      "title": "Fiction"
     }
   }
 }
+
 ```
 
 ### Get All Books
@@ -378,17 +412,21 @@ Response Sample Pattern:
 
 ```json
   {
-      "success": true,
-      "statusCode":200,
-      "message": "Books fetched successfully",
-      "meta": {
-        "page": 3,
-        "size": 10,
-        "total":95,
-        "totalPage":10
-        }
-      "data": [{},{}] ,
-  }
+  "success": true,
+  "statusCode": 200,
+  "message": "Books fetched successfully",
+  "meta": {
+    "page": 3,
+    "size": 10,
+    "total": 95,
+    "totalPage": 10
+  },
+  "data": [
+    {},{},
+    // More books...
+  ]
+}
+
 ```
 
 ### Seraching and filtering book listings: ( You do not need to implement searching and pagination as we implemented, you can do as your own )
@@ -404,7 +442,6 @@ Query parameters: (Case Insensitive)
 - minPrice: The minimum price for filtering (e.g. ?minPrice=1000).
 - maxPrice: The maximum price for filtering (e.g. ?maxPrice=5000).
 - category: Filter using category id (e.g : ?category=f1234573-sfkjsf-45332)
-
 - search: The search query string for searching books (e.g., ?title="Programmig"). (Search Fields should be title,author,genre)
 
 Response: An array of books listing objects that match the provided filters, limited to the specified page ,size and total page.
@@ -421,9 +458,11 @@ Response Sample Pattern:
         "size": 10,
         "total":63,
         "totalPage":7
-        }
-
-      "data": [{},{}],
+        },
+      "data": [
+        {},{},
+        // More books
+        ]
   }
 ```
 
@@ -439,17 +478,21 @@ Response Sample Pattern:
 
 ```json
   {
-      "success": true,
-      "statusCode":200,
-      "message": "Books with associated category data fetched successfully",
-      "meta": {
-        "page": 1,
-        "size": 10,
-        "total":25,
-        "totalPage":3
-        }
-      "data": [{},{}] ,
-  }
+  "success": true,
+  "statusCode": 200,
+  "message": "Books with associated category data fetched successfully",
+  "meta": {
+    "page": 1,
+    "size": 10,
+    "total": 25,
+    "totalPage": 3
+  },
+  "data": [
+    {},{},
+    // More books...
+  ]
+}
+
 ```
 
 ### Get a Single Book
@@ -460,15 +503,24 @@ Request Param: :id
 
 Response: The specified book object.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
   "message": "Book fetched successfully",
-  "data": {}
+  "data": {
+    "id": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Fiction",
+    "price": 350.75,
+    "publicationDate": "1951-07-16",
+    "categoryId": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d"
+  }
 }
+
 ```
 
 ### Update a Single Book → Only Allowed For Admin
@@ -477,17 +529,36 @@ Route: /api/v1/books/:id (PATCH)
 
 Request Param: :id
 
+Request Body: 
+```json
+{
+  "title": "The Catcher in the Rye Part-1",
+  "author": "J.D. John",
+  "genre": "Programming",
+  "price": 340.75,
+}
+```
+
 Response: The updated book object.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
-  "message": "Book is updated successfully",
-  "data": {}
+  "message": "Book updated successfully",
+  "data": {
+    "id": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
+    "title": "The Catcher in the Rye Part-1",
+    "author": "J.D. John",
+    "genre": "Programming",
+    "price": 340.75,
+    "publicationDate": "1951-07-16",
+    "categoryId": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d"
+  }
 }
+
 ```
 
 ### Delete a book → Only Allowed for admins
@@ -498,37 +569,48 @@ Request Param: :id
 
 Response: The deleted book object
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
   "message": "Book is deleted successfully",
-  "data": {}
+  "data": {
+    "id": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
+    "title": "The Catcher in the Rye Part-1",
+    "author": "J.D. John",
+    "genre": "Programming",
+    "price": 340.75,
+    "publicationDate": "1951-07-16",
+    "categoryId": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d"
+  }
 }
 ```
 
 ### Implement Create, Read Operations for Order Listings.
 
-Route: /api/v1/orders/create-order (POST) → Only Allowed For Customer
+### Create Order → Only Allowed For Customer
+
+Route: /api/v1/orders/create-order (POST) 
 
 Request body:
 
 ```json
 {
-  "userId": "u458-456vc-34dsa-vvcf",
+  "userId": "b2e06b3e-87bf-4b11-a74a-29c66f8f48df",
   "orderedBooks": [
     {
-      "bookId": "abm45888vbvbb5667",
+      "bookId": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
       "quantity": 3
     },
     {
-      "bookId": "xyv8991ghdjd9881",
+      "bookId": "c9b2d566-1d8a-4fe1-8d15-07ed4f7c5dc9",
       "quantity": 2
     }
   ]
 }
+
 ```
 
 Response: The newly created order object.
@@ -539,17 +621,17 @@ Response Sample Pattern:
 {
   "success": true,
   "statusCode": 200,
-  "message": "Book is deleted successfully",
+  "message": "Order created successfully",
   "data": {
-    "id": "o567-xyz8-ddxy6-dd2f",
-    "userId": "u458-456vc-34dsa-vvcf",
+    "id": "fe659812-5b10-4b6d-b88d-7b9e60902a67",
+    "userId": "b2e06b3e-87bf-4b11-a74a-29c66f8f48df",
     "orderedBooks": [
       {
-        "bookId": "abm45888vbvbb5667",
+        "bookId": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
         "quantity": 3
       },
       {
-        "bookId": "xyv8991ghdjd9881",
+        "bookId": "c9b2d566-1d8a-4fe1-8d15-07ed4f7c5dc9",
         "quantity": 2
       }
     ],
@@ -559,7 +641,9 @@ Response Sample Pattern:
 }
 ```
 
-Route: /api/v1/orders (GET) → Only Allowed For Admins
+### Get all Order → Only Allowed For Admins
+
+Route: /api/v1/orders (GET)
 
 Response: The ordered array of objects.
 
@@ -570,11 +654,16 @@ Response Sample Pattern:
   "success": true,
   "statusCode": 200,
   "message": "Orders retrieved successfully",
-  "data": [{},{},....]
+  "data": [
+    {},
+    // More orders...
+  ]
 }
 ```
 
-Route: /api/v1/orders (GET) → Only Specific For Customer
+### Get all Order for specific Customer → Only Specific For Customer
+
+Route: /api/v1/orders (GET) 
 
 Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
 
@@ -597,13 +686,19 @@ Response Sample Pattern:
   "success": true,
   "statusCode": 200,
   "message": "Orders retrieved successfully",
-  "data": [{},{},....]
+  "data": [
+    {},
+    // More orders...
+  ]
 }
+
 ```
 
 # Bonus Part:
 
-Route: /api/v1/orders/:orderId (Get) → Only for specific customer and admins
+### Get single order by Id → Only for specific customer and admins
+
+Route: /api/v1/orders/:orderId (Get) 
 
 Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
 
@@ -623,7 +718,35 @@ Please follow these steps to access the specific order:
 
 - If the user's role is a customer, verify that the order's userId matches the userId of the customer who placed the order. This step ensures that only customers who ordered individually will be able to see the specific order.
 
-Route: /api/v1/profile (Get) → Only for specific user (customer and admin)
+Sample Response Data:
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Order fetched successfully",
+  "data": {
+    "id": "fe659812-5b10-4b6d-b88d-7b9e60902a67",
+    "userId": "b2e06b3e-87bf-4b11-a74a-29c66f8f48df",
+    "orderedBooks": [
+      {
+        "bookId": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
+        "quantity": 3
+      },
+      {
+        "bookId": "c9b2d566-1d8a-4fe1-8d15-07ed4f7c5dc9",
+        "quantity": 2
+      }
+    ],
+    "status": "pending",
+    "createdAt": "2023-08-28T10:00:00Z"
+  }
+}
+
+```
+
+### Get User Profile Data → Only for specific user (customer and admin)
+
+Route: /api/v1/profile (Get) 
 
 Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
 
@@ -687,24 +810,28 @@ Please follow these steps to access the specific profile:
 - api/v1/users/6177a5b87d32123f08d2f5d4 (Single GET) Include an id that is saved in your database
 - api/v1/users/6177a5b87d32123f08d2f5d4 (PATCH)
 - api/v1/users/6177a5b87d32123f08d2f5d4 (DELETE) Include an id that is saved in your database
+- api/v1/profile (GET)
 
-#### Cows
+### Category
 
-- api/v1/cows (POST)
-- api/v1/cows (GET)
-- api/v1/cows/6177a5b87d32123f08d2f5d4 (Single GET) Include an id that is saved in your database
-- api/v1/cows/6177a5b87d32123f08d2f5d4 (PATCH)
-- api/v1/cows/6177a5b87d32123f08d2f5d4 (DELETE) Include an id that is saved in your database
+- api/v1/categories/create-category (POST)
+- api/v1/categories (GET)
+- api/v1/categories/6177a5b87d32123f08d2f5d4 (Single GET) Include an id that is saved in your database
+- api/v1/categories/6177a5b87d32123f08d2f5d4 (PATCH)
+- api/v1/categories/6177a5b87d32123f08d2f5d4 (DELETE) Include an id that is saved in your database
 
-### Pagination and Filtering routes of Cows
+### Books
 
-- api/v1/cows?pag=1&limit=10
-- api/v1/cows?sortBy=price&sortOrder=asc
-- api/v1/cows?minPrice=20000&maxPrice=70000
-- api/v1/cows?location=Chattogram
-- api/v1/cows?searchTerm=Cha
+- api/v1/books/create-book (POST)
+- api/v1/books (GET)
+- api/v1/books/:categoryId (GET)
+- api/v1/books/:id (GET)
+- api/v1/books/:id (PATCH)
+- api/v1/books/:id (DELETE)
 
-#### Orders
+### Orders
 
-- api/v1/orders (POST)
-- api/v1/orders (GET)
+- api/v1/orders/create-order (POST)
+- api/v1/orders (GET) 
+- api/v1/orders/:orderId (GET)
+
