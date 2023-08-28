@@ -6,15 +6,16 @@
 [https://classroom.github.com/a/le5T8iGk](https://classroom.github.com/a/le5T8iGk) -->
 
 <hr>
+
 ### Assignment No: 08
 
-### Assignment Name:
+### Assignment Description:
 
-You have been assigned the task of building the backend for a Book Listing Application. The main focus of this assignment is to implementCRUD operations, pagination and filtering using Express , PostgreSQL and Prisma .
+You have been assigned the task of building the backend for a Book Listing Application. The main focus of this assignment is to implement CRUD operations, pagination and filtering using Prisma, Postgres and Express.
 
 ### Technology Stack:
 
-- Use TypeScript as the programming language.
+- Use TypeScript as the Programming Language.
 - Use Express.js as the web framework.
 - Use Prisma as the Object Realtion Model (ORM)
 - Use postgreSQL as the database
@@ -23,6 +24,7 @@ You have been assigned the task of building the backend for a Book Listing Appli
 
 ### User Model:
 
+- id
 - name
 - email
 - password
@@ -33,10 +35,12 @@ You have been assigned the task of building the backend for a Book Listing Appli
 
 ### Category Model:
 
+- id
 - title
 
 ### Book Model:
 
+- id
 - title
 - author
 - price
@@ -46,6 +50,7 @@ You have been assigned the task of building the backend for a Book Listing Appli
 
 ### ReviewAndRating:
 
+- id
 - review
 - rating
 - userId
@@ -53,6 +58,7 @@ You have been assigned the task of building the backend for a Book Listing Appli
 
 ### Orders
 
+- id
 - userId
 - orderedBooks → Array of book ids
 - status → ‘pending’/ ‘shipped’/’delivered’ → default shoulb be “pending”
@@ -84,11 +90,23 @@ Request body:
 
 Response: The newly created user object.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
-Firoz
-
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "User created successfully!",
+  "data": {
+    "id": "2d267d12-6b9c-4ee0-a8e5-0d8f6c5c1e3b",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "customer",
+    "contactNo": "1234567890",
+    "address": "Dhaka, Bangladesh",
+    "profileImg": "user.jpg"
+  }
+}
 ```
 
 ### Get All Users → Only Allowed For Admin
@@ -99,15 +117,27 @@ Request body:
 
 Response: The user's array of objects.
 
-Response Sample Pattern:
+Response Sample Data:
 
 ```json
 {
   "success": true,
   "statusCode": 200,
   "message": "Users retrieved successfully",
-  "data": [{}, {}]
+  "data": [
+    {
+      "id": "2d267d12-6b9c-4ee0-a8e5-0d8f6c5c1e3b",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "role": "customer",
+      "contactNo": "1234567890",
+      "address": "Dhaka, Bangladesh",
+      "profileImg": "user.jpg"
+    },
+    // More users...
+  ]
 }
+
 ```
 
 ### Get a Single User → Only Allowed For Admin
@@ -134,6 +164,17 @@ Response Sample Pattern:
 Route: /api/v1/users/:id (PATCH)
 
 Request Param: :id
+
+Request Body: 
+```json
+{
+  "name": "John Doe1",
+  "email": "john1@example.com",
+  "contactNo": "01234567890",
+  "address": "Khulna, Bangladesh",
+  "profileImg": "user1.jpg"
+}
+```
 
 Response: The updated user object.
 
@@ -179,7 +220,7 @@ Request body:
 
 ```json
 {
-  "title": "Fiction"
+  "title": "Programming"
 }
 ```
 
@@ -188,7 +229,16 @@ Response: The newly created category object.
 Response Sample Pattern:
 
 ```json
- Firoz
+ {
+  "success": true,
+  "statusCode": 200,
+  "message": "Category created successfully",
+  "data": {
+    "id": "b33e6c08-8b5e-47f5-b7cc-73f3b2f36a4d",
+    "title": "Programming"
+  }
+}
+
 ```
 
 ### Get All Categories
@@ -234,6 +284,13 @@ Response Sample Pattern:
 Route: /api/v1/categories/:id (PATCH)
 
 Request Param: :id
+
+Request Body: 
+```json
+{
+  "title": "Fiction"
+}
+```
 
 Response: The updated category object.
 
