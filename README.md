@@ -476,13 +476,13 @@ Route: /api/v1/books?
 Query parameters: (Case Insensitive)
 
 - page: The page number for pagination (e.g., ?page=1).
-- size: The number of book listings per page (e.g. ?limit=10).
+- size: The number of book listings per page (e.g. ?size=10).
 - sortBy: The field to sort the cow listings (e.g. ?sortBy=price).
 - sortOrder : The order of sorting, either 'asc' or 'desc' (e.g. ?sortOrder=asc).
 - minPrice: The minimum price for filtering (e.g. ?minPrice=1000).
 - maxPrice: The maximum price for filtering (e.g. ?maxPrice=5000).
 - category: Filter using category id (e.g : ?category=f1234573-sfkjsf-45332)
-- search: The search query string for searching books (e.g., ?title="Programmig"). (Search Fields should be title,author,genre)
+- search: The search query string for searching books (e.g., ?search="Programmig"). (Search Fields should be title,author,genre)
 
 Response: An array of books listing objects that match the provided filters, limited to the specified page ,size and total page.
 
