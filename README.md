@@ -24,45 +24,85 @@ You have been assigned the task of building the backend for a Book Listing Appli
 
 ### User Model:
 
-- id
-- name
-- email
-- password
-- role → admin / customer
-- contactNo
-- address
-- profileImg
+Create a `User` model with the following fields:
+
+- id: A UUID generated using the @default(uuid()) attribute.
+- name: A string representing the user's name.
+- email: A unique string representing the user's email.
+- password: A string representing the user's password.
+- role: A string with values 'admin' or 'customer'.
+- contactNo: A string for the user's contact number.
+- address: A string for the user's address.
+- profileImg: A string for the user's profile image.
 
 ### Category Model:
 
-- id
-- title
+Create a `Category` model with the following fields:
+
+- id: A UUID generated using the @default(uuid()) attribute.
+- title: A string representing the category title.
 
 ### Book Model:
 
-- id
-- title
-- author
-- price
-- genre
-- publicationDate
-- categoryId
+Create a `Book` model with the following fields:
 
-### ReviewAndRating:
+- id: A UUID generated using the @default(uuid()) attribute.
+- title: A string representing the book's title.
+- author: A string representing the book's author.
+- price: A floating-point number representing the book's price.
+- genre: A string representing the book's genre.
+- publicationDate: A DateTime field representing the book's publication date.
+- categoryId: A UUID representing the category to which the book belongs.
 
-- id
-- review
-- rating
-- userId
-- bookId
+### Review And Rating:
 
-### Orders
+Create a `ReviewAndRating` model with the following fields:
 
-- id
-- userId
-- orderedBooks → Array of Object and object contains book Id and quantity
-- status → ‘pending’/ ‘shipped’/’delivered’ → default should be “pending”
-- createdAt
+- id: A UUID generated using the @default(uuid()) attribute.
+- review: A string representing the user's review.
+- rating: An integer representing the user's rating.
+- userId: A UUID representing the user who submitted the review.
+- bookId: A UUID representing the book being reviewed.
+
+### Order Model
+
+Create an `Order` model with the following fields:
+
+- id: A UUID generated using the @default(uuid()) attribute.
+- userId: A UUID representing the user who placed the order.
+- orderedBooks: A JSON field containing an array of objects, each with book ID and quantity.
+- status: A string with values 'pending', 'shipped', or 'delivered', defaulting to 'pending'.
+- createdAt: A DateTime field representing the order creation timestamp.
+
+#### Storing Ordered Books: Hints and Guidelines
+When it comes to storing ordered books in your application, you have a range of choices. Here, we'll delve into two prevalent strategies: utilizing a JSON field to hold the data, or alternatively, crafting a distinct model for ordered books. Feel free to select any approach that best suits for you.
+
+##### Approach 1: Using JSON Type
+1. Define the JSON Field:
+- In the `Order` model, define the `orderedBooks` field as a JSON data type.
+- Use Prisma's Json type to represent JSON data.
+
+2. Storing Array of Objects:
+- In the `orderedBooks` field, store an array of objects, each containing `bookId` and `quantity`.
+- JSON arrays are enclosed in square brackets [], and objects are enclosed in curly braces {}.
+
+3. Example JSON Structure:
+```json
+[
+  { "bookId": "uuid1", "quantity": 2 },
+  { "bookId": "uuid2", "quantity": 1 }
+]
+```
+
+#### Approach 2: Using Separate Model
+
+1. Define OrderedBook Model:
+- Create an `OrderedBook` model with fields: `id`, `orderId`, `bookId`, and `quantity`.
+- Use the @default(uuid()) attribute to generate UUIDs for id.
+
+2. Create Relationship:
+- In the `Order` model, establish a one-to-many relationship to `OrderedBook`.
+- This enables each order to have multiple associated ordered book entries.
 
 # Main Part:
 
