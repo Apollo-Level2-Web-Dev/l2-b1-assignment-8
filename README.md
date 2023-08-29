@@ -283,7 +283,7 @@ Response Sample Pattern:
 
 ### Get All Categories
 
-Route: /api/v1/ategories (GET)
+Route: /api/v1/categories (GET)
 
 Request body:
 
