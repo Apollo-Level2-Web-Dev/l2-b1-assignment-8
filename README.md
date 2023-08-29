@@ -634,11 +634,22 @@ Response Sample Data:
 
 Route: /api/v1/orders/create-order (POST) 
 
-Request body:
+Request Headers: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
+
+Decoded Token:
 
 ```json
 {
-  "userId": "b2e06b3e-87bf-4b11-a74a-29c66f8f48df",
+  "role": "customer",
+  "userId": "o577-x888-dd86-dd2f",
+  "iat": 1516239022   → "Please set the iat at least 1 year"
+}
+```
+
+Request Body:
+
+```json
+{
   "orderedBooks": [
     {
       "bookId": "efb2949f-8f85-42f6-a9ce-8c177814e2ec",
@@ -681,6 +692,8 @@ Response Sample Pattern:
 }
 ```
 
+Hints: You will have to decode the userId from token for creating order for specific customer.
+
 ### Get all Order → Only Allowed For Admins
 
 Route: /api/v1/orders (GET)
@@ -701,7 +714,7 @@ Response Sample Pattern:
 }
 ```
 
-### Get all Order for specific Customer → Only Specific For Customer
+### Get all Order for specific Customers → Only Specific Customers
 
 Route: /api/v1/orders (GET) 
 
