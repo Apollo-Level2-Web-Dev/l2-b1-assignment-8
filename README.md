@@ -60,7 +60,7 @@ Create a `ReviewAndRating` model with the following fields:
 
 - id: A UUID generated using the @default(uuid()) attribute.
 - review: A string representing the user's review.
-- rating: An integer representing the user's rating.
+- rating: An integer representing the user's rating. (1 - 5)
 - userId: A UUID representing the user who submitted the review.
 - bookId: A UUID representing the book being reviewed.
 
@@ -106,7 +106,7 @@ When it comes to storing ordered books in your application, you have a range of 
 
 # Main Part:
 
-## API End points and Sample Data:
+## API Endpoints and Sample Data:
 
 ## Implement Create, Read, Update, and Delete Operations for Users Listing
 
