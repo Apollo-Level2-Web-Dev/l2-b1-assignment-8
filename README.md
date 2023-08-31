@@ -845,7 +845,7 @@ Please follow these steps to access the specific profile:
 
 ### What to submit
 
-1. Your Github Private Repository Link
+1. Your Github Repository Link
 2. Deployed Live Link (Vercel / Railway / Heroku or any other platform)
    - `** Do not use a logger. It will not work on the free hosting platforms **`
 3. Must include all the routes into Readme.md file.
