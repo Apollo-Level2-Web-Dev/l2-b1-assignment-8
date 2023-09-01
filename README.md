@@ -338,7 +338,7 @@ Response Sample Pattern:
 
 ### Get a Single Category
 
-Route: /api/v1/users/:id (GET)
+Route: /api/v1/categories/:id (GET)
 
 Request Param: :id
 
