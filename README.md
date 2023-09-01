@@ -149,6 +149,42 @@ Response Sample Data:
 }
 ```
 
+### User Sign Up
+
+Route: /api/v1/auth/signin (POST)
+
+Request body:
+
+```json
+{
+  "email": "john@example.com",
+  "password": "john123"
+}
+```
+
+Response: The newly created user object.
+
+Response Sample Data:
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "User signin successfully!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiY3VzdG9tZXIiLCJ1c2VySWQiOiJvNTc3LXg4ODgtZGQ4Ni1kZDJmIiwiaWF0IjoxNTE2MjM5MDIyfQ.MejYWi-cw0zf5zFiJ5R09-PrCWOj8auEqAz2XY9im1Q"
+}
+```
+
+Decoded Token:
+
+```json
+{
+  "role": "customer",
+  "userId": "o577-x888-dd86-dd2f",
+  "iat": 1516239022   → "Please set the iat at least 1 year"
+}
+```
+
 ### Get All Users → Only Allowed For Admin
 
 Route: /api/v1/users (GET)
@@ -508,7 +544,7 @@ Response Sample Pattern:
 
 ### Get Books By CategoryId
 
-Route: /api/v1/books/:categoryId (GET)
+Route: /api/v1/books/:categoryId/category (GET)
 
 Request Param: :categoryId
 
@@ -877,7 +913,7 @@ Please follow these steps to access the specific profile:
 
 - api/v1/books/create-book (POST)
 - api/v1/books (GET)
-- api/v1/books/:categoryId (GET)
+- api/v1/books/:categoryId/category (GET)
 - api/v1/books/:id (GET)
 - api/v1/books/:id (PATCH)
 - api/v1/books/:id (DELETE)
