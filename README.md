@@ -51,7 +51,7 @@ Create a `Book` model with the following fields:
 - author: A string representing the book's author.
 - price: A floating-point number representing the book's price.
 - genre: A string representing the book's genre.
-- publicationDate: A DateTime field representing the book's publication date.
+- publicationDate: A string field representing the book's publication date.
 - categoryId: A UUID representing the category to which the book belongs.
 
 ### Review And Rating:
