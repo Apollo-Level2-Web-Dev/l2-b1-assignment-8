@@ -162,7 +162,7 @@ Request body:
 }
 ```
 
-Response: The newly created user object.
+Response: A object with user JWT token.
 
 Response Sample Data:
 
