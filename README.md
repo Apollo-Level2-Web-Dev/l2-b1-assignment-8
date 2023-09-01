@@ -149,7 +149,7 @@ Response Sample Data:
 }
 ```
 
-### User Sign Up
+### User Sign In/Login
 
 Route: /api/v1/auth/signin (POST)
 
